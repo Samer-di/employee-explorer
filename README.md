@@ -89,9 +89,4 @@ Next.js 16.4.6
 
 ## Artificial Delay
 
-A temporary 3-second artificial delay was added to the
-Recent Posts Server Component during testing to verify
-the Suspense fallback and section independence.
-
-The artificial delay was removed after testing.
-The final application does not include an artificial delay.
+A permanent 2-second artificial delay is applied before fetching data to demonstrate loading behavior.
