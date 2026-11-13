@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Employee Explorer
+
+Employee Explorer is a Next.js application that displays an employee's profile and posts using the JSONPlaceholder API.
+
+This project was developed for TechTalks Company Assignment 3 to demonstrate server-side and client-side data fetching, React Suspense, error handling, and loading states.
+
+## Features
+
+- **Employee Profile:** Displays employee information fetched on the server.
+- **Recent Posts Preview:** Displays the first three posts using a Server Component and React Suspense.
+- **Explore All Posts:** Loads all employee posts in the browser after clicking a button.
+- **Loading States:** Uses Suspense for server loading and React state for client loading.
+- **Error Handling:** Handles HTTP errors, network failures, and empty results.
+- **Retry:** Allows users to retry a failed client-side request.
+- **Responsive Design:** Supports desktop and mobile screen sizes.
+
+## Technologies Used
+
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- JSONPlaceholder API
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository.
+2. Open the project folder.
+3. Install dependencies using `npm install`.
+4. Start the development server using `npm run dev`.
+5. Open http://localhost:3000 in your browser.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## How It Works
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Server-side requests:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Employee Profile: `https://jsonplaceholder.typicode.com/users/1`
+- Recent Posts Preview: `https://jsonplaceholder.typicode.com/posts?userId=1`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Client-side request:**
 
-## Learn More
+- Explore All Posts: `https://jsonplaceholder.typicode.com/posts?userId=1`
 
-To learn more about Next.js, take a look at the following resources:
+The server requests begin when the page is rendered. The client request starts only when the user clicks the Explore All Posts button.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Error Handling
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The application uses a custom `ApiError` class to store HTTP error messages and status codes.
 
-## Deploy on Vercel
+Network failures are handled separately. Empty post results display a dedicated message instead of being treated as errors.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Testing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The application was tested for server and client fetching, loading behavior, HTTP failures, network failures, empty results, recovery, mobile responsiveness, and keyboard navigation.
+
+Verification commands:
+
+- `npm run lint`
+- `npm run build`
+
+## Documentation
+
+- [Interview Notes](docs/INTERVIEW.md)
+- [Testing Results](docs/TESTING.md)
+- [Testing Screenshots](docs/evidence/)
+
+## Limitations
+
+- The application displays only employee ID 1.
+- It uses the public JSONPlaceholder mock API.
+- An internet connection is required to retrieve employee data.
+- It does not include authentication or a database.
