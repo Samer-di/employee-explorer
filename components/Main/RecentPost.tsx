@@ -1,3 +1,5 @@
+import ApiError from "@/lib/ApiError";
+import { unstable_rethrow } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faFileLines } from "@fortawesome/free-solid-svg-icons";
@@ -16,15 +18,30 @@ const RecentPost = async () => {
     );
 
     if (!response.ok) {
-      throw new Error("Failed to fetch Recent Posts!");
+      throw new ApiError("Failed to fetch Recent Posts!", response.status);
     }
 
     posts = await response.json();
-  } catch {
+  } catch (error) {
+    unstable_rethrow(error);
+
+    let errorMessage: string;
+
+    if (error instanceof ApiError) {
+      errorMessage = `Recent posts service error (HTTP ${error.status}). Please try again later.`;
+    } else {
+      errorMessage =
+        "Unable to load recent posts. Please check your connection and try again.";
+    }
     return (
-      <div className="rounded-2xl bg-white p-6">
-        <h2>Recent Posts</h2>
-        <p>Unable to load Recent Posts. Please try again later.</p>
+      <div className="flex w-full items-center justify-center md:w-[33.3%]">
+        <div className="min-h-107.5 w-full max-w-[320px] rounded-[20px] bg-[#F9FBFF] p-6 shadow-[0_10px_30px_rgba(65,105,180,0.16)]">
+          <h2 className="text-lg font-bold text-[#101B50]">
+            Recent Posts Preview
+          </h2>
+
+          <p className="mt-4 text-sm text-red-600">{errorMessage}</p>
+        </div>
       </div>
     );
   }

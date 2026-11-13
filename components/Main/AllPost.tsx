@@ -1,4 +1,5 @@
 "use client";
+import ApiError from "@/lib/ApiError";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
@@ -20,10 +21,13 @@ const AllPost = () => {
     "idle" | "loading" | "success" | "empty" | "error"
   >("idle");
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleLoadPosts = async () => {
     if (status === "loading") return;
 
     setStatus("loading");
+    setErrorMessage("");
 
     try {
       const response = await fetch(
@@ -31,7 +35,7 @@ const AllPost = () => {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch posts");
+        throw new ApiError("Failed to fetch posts", response.status);
       }
 
       const data: Post[] = await response.json();
@@ -44,7 +48,16 @@ const AllPost = () => {
         setStatus("success");
       }
     } catch (error) {
-      console.error(error);
+      if (error instanceof ApiError) {
+        setErrorMessage(
+          `Posts service error (HTTP ${error.status}). Please try again.`,
+        );
+      } else {
+        setErrorMessage(
+          "Unable to load posts. Please check your connection and try again.",
+        );
+      }
+
       setStatus("error");
     }
   };
@@ -94,7 +107,7 @@ const AllPost = () => {
 
           {status === "error" && (
             <p className="mt-3 text-sm text-red-600" role="alert">
-              Unable to load posts. Please try again.
+              {errorMessage}
             </p>
           )}
 

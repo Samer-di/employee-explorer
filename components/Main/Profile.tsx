@@ -1,3 +1,5 @@
+import ApiError from "@/lib/ApiError";
+import { unstable_rethrow } from "next/navigation";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -41,15 +43,25 @@ const Profile = async () => {
     );
 
     if (!response.ok) {
-      throw new Error("Failed to fetch employee");
+      throw new ApiError("Failed to fetch employee", response.status);
     }
 
     employee = await response.json();
-  } catch {
+  } catch (error) {
+    unstable_rethrow(error);
+
+    let errorMessage: string;
+
+    if (error instanceof ApiError) {
+      errorMessage = `Employee service error (HTTP ${error.status}). Please try again later.`;
+    } else {
+      errorMessage =
+        "Unable to load employee information. Please check your connection and try again.";
+    }
     return (
       <div className="rounded-2xl bg-white p-6">
         <h2>Employee Profile</h2>
-        <p>Unable to load employee information. Please try again later.</p>
+        <p>{errorMessage}</p>
       </div>
     );
   }
