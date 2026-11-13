@@ -70,3 +70,28 @@ Verification commands:
 - It uses the public JSONPlaceholder mock API.
 - An internet connection is required to retrieve employee data.
 - It does not include authentication or a database.
+
+## Author
+
+Full Name: Samer Daghestani
+
+## Next.js Version
+
+Next.js 16.4.6
+
+## Demo Controls
+
+- Employee Profile loads automatically when opening the page.
+- Recent Posts Preview loads automatically inside a Suspense boundary.
+- Click "Explore All Posts" to fetch and display all employee posts.
+- The button displays a loading state and becomes disabled during the request.
+- If the client request fails, use the Retry button to try again.
+
+## Artificial Delay
+
+A temporary 3-second artificial delay was added to the
+Recent Posts Server Component during testing to verify
+the Suspense fallback and section independence.
+
+The artificial delay was removed after testing.
+The final application does not include an artificial delay.
